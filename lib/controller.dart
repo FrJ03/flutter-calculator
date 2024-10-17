@@ -2,9 +2,9 @@ class Calculator{
   //Method that receive an string with the operation and returns the operation result
   //An input example could be: 5+2*3
   double calculate(String operation){
-    String operationCopy = operation;
-    operationCopy = solveProductDivision(operationCopy);
-    return solveAddSubtract(operationCopy);
+    String operationSolved = solveParenthesis(operation);
+    operationSolved = solveProductDivision(operationSolved);
+    return solveAddSubtract(operationSolved);
   }
 
   double getFirstNumberValue(String operation){
@@ -92,5 +92,42 @@ class Calculator{
     }
     operationCopy += a;
     return operationCopy;
+  }
+
+  String solveParenthesis(String operation){
+    String operationSolved = '';
+    bool hasParenthesis = false;
+    for (int i = 0 ; i < operation.length ; i++){
+      if(operation[i] == '('){
+        hasParenthesis = true;
+        int nOps = 0;
+        int nParenthesis = 1;
+        for(int j = i + 1; j < operation.length && nParenthesis != 0 ; j++){
+          if(['+', '-', '*', '/'].contains(operation[j])){
+            nOps++;
+          }
+          else if(operation[j] == ')'){
+            nParenthesis--;
+
+            if(nParenthesis == 0 && (nOps != 1 || operation[i+1] != '-')){
+              operationSolved += calculate(operation.substring(i+1, j)).toString();
+              i = j;
+              break;
+            }
+          }
+          else if(operation[j] == '('){
+            nParenthesis++;
+          }
+        }
+      }
+      else{
+        operationSolved += operation[i];
+      }
+    }
+    if(!hasParenthesis){
+      operationSolved = operation;
+    }
+
+    return operationSolved;
   }
 }

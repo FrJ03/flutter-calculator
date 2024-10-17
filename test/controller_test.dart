@@ -34,5 +34,14 @@ void main() {
     test('product with an add at the end', (){
       expect(Calculator().calculate('2*2+2',), 6.0);
     });
+    test('product with an add in a parenthesis', (){
+      expect(Calculator().calculate('(2+2)*2',), 8.0);
+    });
+    test('division with an add in a parenthesis', (){
+      expect(Calculator().calculate('8/(1+3)',), 2.0);
+    });
+    test('division with an add in two parenthesis', (){
+      expect(Calculator().calculate('8/(1+(1+1+1))',), 2.0);
+    });
   });
 }
