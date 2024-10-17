@@ -9,14 +9,41 @@ class Calculator{
 
   double getFirstNumberValue(String operation){
     String a = '';
-    for (int i = 0 ; i < operation.length ; i++){
-      if (['+', '-'].contains(operation[i])){
-        break;
-      }
-      else{
-        a += operation[i];
+
+    if(operation[0] == '(' && !['-', '+'].contains(operation[1])){
+      for (int i = 1 ; i < operation.length ; i++){
+        if ([')'].contains(operation[i])){
+          break;
+        }
+        else{
+          a += operation[i];
+        }
       }
     }
+    else if(operation[0] == '(' && ['-', '+'].contains(operation[1])){
+      if(operation[1] == '-'){
+        a += '-';
+      }
+      for (int i = 2 ; i < operation.length ; i++){
+        if ([')'].contains(operation[i])){
+          break;
+        }
+        else{
+          a += operation[i];
+        }
+      }
+    }
+    else{
+      for (int i = 0 ; i < operation.length ; i++){
+        if (['+', '-'].contains(operation[i])){
+          break;
+        }
+        else{
+          a += operation[i];
+        }
+      }
+    }
+
     return double.parse(a);
   }
 
@@ -35,6 +62,11 @@ class Calculator{
               result -= b;
           }
         }
+        else if(operation[i] == '('){
+          while(operation[i] != ')'){
+            i++;
+          }
+        }
       }
     }
     else{
@@ -47,6 +79,11 @@ class Calculator{
               result += b;
             case '-':
               result -= b;
+          }
+        }
+        else if(operation[i] == '('){
+          while(operation[i] != ')'){
+            i++;
           }
         }
       }
@@ -62,22 +99,48 @@ class Calculator{
         String b = '';
 
         int newI = 0;
-        for (int j = i+1 ; j <= operation.length ; j++){
-          if (j >= operation.length || ['+', '-', '*', '/'].contains(operation[j])){
-            newI = j-1;
-            break;
+        if(operation[i+1] == '('){
+          b += operation[i+2];
+          for (int j = i+3 ; j <= operation.length ; j++){
+            if (j >= operation.length || ['+', '-', '*', '/', ')'].contains(operation[j])){
+              newI = j;
+              break;
+            }
+            else{
+              b += operation[j];
+            }
           }
-          else{
-            b += operation[j];
+        }
+        else{
+          for (int j = i+1 ; j <= operation.length ; j++){
+            if (j >= operation.length || ['+', '-', '*', '/'].contains(operation[j])){
+              newI = j-1;
+              break;
+            }
+            else{
+              b += operation[j];
+            }
           }
         }
 
         String result = '';
         switch(operation[i]){
           case '*':
-            result += (double.parse(a) * double.parse(b)).toString();
+            double res = double.parse(a) * double.parse(b);
+            if(res >= 0){
+              result += res.toString();
+            }
+            else{
+              result += '($res)';
+            }
           case '/':
-            result += (double.parse(a) / double.parse(b)).toString();
+            double res = double.parse(a) / double.parse(b);
+            if(res >= 0){
+              result += res.toString();
+            }
+            else{
+              result += '($res)';
+            }
         }
         a=result;
         i = newI;
@@ -98,7 +161,7 @@ class Calculator{
     String operationSolved = '';
     bool hasParenthesis = false;
     for (int i = 0 ; i < operation.length ; i++){
-      if(operation[i] == '('){
+      if(operation[i] == '(' && operation[i+1] != '-'){
         hasParenthesis = true;
         int nOps = 0;
         int nParenthesis = 1;
@@ -110,7 +173,14 @@ class Calculator{
             nParenthesis--;
 
             if(nParenthesis == 0 && (nOps != 1 || operation[i+1] != '-')){
-              operationSolved += calculate(operation.substring(i+1, j)).toString();
+              double res = calculate(operation.substring(i+1, j));
+              if(res >= 0){
+                operationSolved += calculate(operation.substring(i+1, j)).toString();
+              }
+              else{
+                operationSolved += '($res)';
+              }
+
               i = j;
               break;
             }

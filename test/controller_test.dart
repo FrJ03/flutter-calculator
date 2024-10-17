@@ -43,5 +43,17 @@ void main() {
     test('division with an add in two parenthesis', (){
       expect(Calculator().calculate('8/(1+(1+1+1))',), 2.0);
     });
+    test('division with a negative divisor', (){
+      expect(Calculator().calculate('8/(-4)',), -2.0);
+    });
+    test('division with a negative divisor', (){
+      expect(Calculator().calculate('8/(4-8)',), -2.0);
+    });
+    test('add with a negative number at the end', (){
+      expect(Calculator().calculate('8+(-4)',), 4.0);
+    });
+    test('add with a negative number at the beginning', (){
+      expect(Calculator().calculate('(-4)+8',), 4.0);
+    });
   });
 }
