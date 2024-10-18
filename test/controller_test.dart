@@ -16,14 +16,23 @@ void main() {
     test('subtract three values', (){
       expect(Calculator().calculate('2-1-1'), 0.0);
     });
+    test('add with real values', (){
+      expect(Calculator().calculate('2+1.1'), 3.1);
+    });
     test('product of two number', (){
       expect(Calculator().calculate('2*2',), 4.0);
     });
     test('product of three number', (){
       expect(Calculator().calculate('2*2*3',), 12.0);
     });
+    test('product with real values', (){
+      expect(Calculator().calculate('2*1.1'), 2.2);
+    });
     test('Division of two number', (){
       expect(Calculator().calculate('2/2',), 1.0);
+    });
+    test('division with real values', (){
+      expect(Calculator().calculate('2.2/1.1'), 2);
     });
     test('product and division', (){
       expect(Calculator().calculate('2*2/2',), 2.0);
