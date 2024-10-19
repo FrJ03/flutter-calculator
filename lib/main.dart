@@ -37,7 +37,7 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
   // Función para manejar la pulsación de los botones
   void buttonPressed(String value) {
     setState(() {
-      if (value == "Borrar") {
+      if (value == "C") {
         operation = '0';
         output = '0';
         operationView='0';
@@ -119,7 +119,7 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
                         buildButton('(',Color(0xFF6750A4)),
                         buildButton(')',Color(0xFF6750A4)),
                         buildButton('/', Color(0xFF6750A4)),
-                        buildButton('Borrar',Color(0xFF7D5260))
+                        buildButton('C',Color(0xFF7D5260)),
                       ],
                     ),
                     TableRow(
@@ -171,13 +171,14 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
       child: ElevatedButton(
         onPressed: () => buttonPressed(value),
         style: ElevatedButton.styleFrom(
+
           backgroundColor: color, // Color de fondo del botón
           foregroundColor: Colors.white, // Texto en blanco
-          padding: const EdgeInsets.all(23), // Ajuste de tamaño del botón
+          padding: const EdgeInsets.all(20)
         ),
         child: Text(
           value,
-          style: const TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize:22),
         ),
       ),
     );
