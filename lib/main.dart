@@ -32,6 +32,7 @@ class CalculatorHomePage extends StatefulWidget {
 class _CalculatorHomePageState extends State<CalculatorHomePage> {
   String output = '0';
   String operation = '0';
+  String operationView = '0';
   Calculator calculator = Calculator(); // Instancia del controlador
   // Función para manejar la pulsación de los botones
   void buttonPressed(String value) {
@@ -39,10 +40,13 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
       if (value == "Borrar") {
         operation = '0';
         output = '0';
+        operationView='0';
       } else if (value == "=") {
         try {
           double result = calculator.calculate(operation); // Llama a la función de cálculo
           output = result.toString(); // Muestra el resultado
+          operationView=operation;
+          operation=output;
         } catch (e) {
           output = "Error"; // Maneja cualquier error de cálculo
         }
@@ -70,6 +74,24 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
 
           children: [
             Container(
+              width:double.infinity,
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color:Color(0xFFE7E0EC),
+                border: Border.all(color: Colors.black26, width: 1.5),
+
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    operationView,
+                    style: const TextStyle(fontSize: 30,color: Color(0xFF21005D)),
+                  ),
+                ],
+              ),
+            ),
+            Container(
               width: double.infinity,
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
@@ -78,10 +100,6 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text(
-                    'Operación',
-                    style: TextStyle(fontSize: 32, color: Color(0xFF21005D)),
-                  ),
                   Text(
                     operation,
                     style: const TextStyle(fontSize: 30,color: Color(0xFF21005D)),
@@ -138,27 +156,6 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
                     ),
                   ],
                 ),
-              ),
-            ),
-            // Caja para mostrar el resultado
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black26, width: 1.5),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text(
-                    'Resultado',
-                    style: TextStyle(fontSize: 32,  color: Color(0xFF21005D)),
-                  ),
-                  Text(
-                    output,
-                    style: const TextStyle(fontSize: 30,color: Color(0xFF21005D)),
-                  ),
-                ],
               ),
             ),
           ],
